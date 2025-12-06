@@ -48,11 +48,21 @@ const CommentsSection: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleLogin = async () => {
+    setError(null);
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error("Error signing in with Google", error);
+    } catch (err: any) {
+      console.error("Error signing in with Google", err);
+      if (err.code === 'auth/unauthorized-domain') {
+        setError(t('login_domain_error') || "This domain is not authorized for authentication. Please add it in Firebase Console.");
+      } else if (err.code === 'auth/popup-closed-by-user') {
+        setError(t('login_cancelled') || "Login cancelled.");
+      } else {
+        setError(err.message || "Failed to sign in.");
+      }
     }
   };
 
@@ -111,6 +121,11 @@ const CommentsSection: React.FC = () => {
                   {t('login_google')}
                 </button>
               </div>
+              {error && (
+                <p className="text-red-500 mt-4 bg-red-500/10 p-2 rounded-lg inline-block">
+                  {error}
+                </p>
+              )}
             </div>
           ) : (
             <div className="space-y-4">
