@@ -162,19 +162,14 @@ const StreamerModal: React.FC<StreamerModalProps> = ({ streamer, onClose }) => {
                                         {chatPlatform === 'kick' ? (
                                             <button
                                                 onClick={() => {
-                                                    const kickUser = streamer.platforms.kick?.split('/').pop();
-                                                    if (kickUser) {
-                                                        window.open(
-                                                            `https://kick.com/${kickUser}/chatroom`,
-                                                            'kick_chat',
-                                                            'width=400,height=600,menubar=no,toolbar=no,location=no,status=no'
-                                                        );
+                                                    if (streamer.platforms.kick) {
+                                                        window.open(streamer.platforms.kick, '_blank');
                                                     }
                                                 }}
                                                 className="mt-4 flex items-center gap-2 bg-[#53FC18] text-black px-6 py-3 rounded-full font-bold hover:bg-[#42ca12] transition-colors"
                                             >
                                                 <ExternalLink size={20} />
-                                                Open Popout Chat
+                                                Open Kick Channel
                                             </button>
                                         ) : (
                                             <a
