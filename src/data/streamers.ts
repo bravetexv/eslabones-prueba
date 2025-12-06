@@ -10,11 +10,13 @@ export interface Streamer {
     color: string;
 }
 
+const BASE = import.meta.env.BASE_URL;
+
 export const streamers: Streamer[] = [
     {
         id: 'bravoxv',
         name: 'Bravoxv',
-        image: '/images/bravoxv.png',
+        image: `${BASE}images/bravoxv.png`,
         platforms: {
             youtube: 'https://www.youtube.com/@Bravo-XV',
             twitch: 'https://www.twitch.tv/bravoxv_',
@@ -25,7 +27,7 @@ export const streamers: Streamer[] = [
     {
         id: 'icegaming',
         name: 'iceGaming',
-        image: '/images/icegaming.png',
+        image: `${BASE}images/icegaming.png`,
         platforms: {
             youtube: 'https://www.youtube.com/@ICEGAMINGCOMUNITY'
         },
@@ -34,7 +36,7 @@ export const streamers: Streamer[] = [
     {
         id: 'kronoxtoxity',
         name: 'KronoxToxity',
-        image: '/images/kronoxtoxity.png',
+        image: `${BASE}images/kronoxtoxity.png`,
         platforms: {
             youtube: 'https://www.youtube.com/@Kronox_Toxity'
         },
@@ -43,7 +45,7 @@ export const streamers: Streamer[] = [
     {
         id: 'leo0dan',
         name: 'Leo0Dan',
-        image: '/images/leo0dan.png',
+        image: `${BASE}images/leo0dan.png`,
         platforms: {
             twitch: 'https://www.twitch.tv/leoodann'
         },
