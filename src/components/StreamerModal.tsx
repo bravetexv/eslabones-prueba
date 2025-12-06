@@ -24,8 +24,8 @@ const StreamerModal: React.FC<StreamerModalProps> = ({ streamer, onClose }) => {
                 const twitchUser = streamer.platforms.twitch?.split('/').pop();
                 return `https://www.twitch.tv/embed/${twitchUser}/chat?parent=${window.location.hostname}&parent=localhost&darkpopout`;
             case 'kick':
-                const kickUser = streamer.platforms.kick?.split('/').pop();
-                return `https://kick.com/${kickUser}/chatroom`; // Note: Kick embedding might be restricted
+                // Kick embedding is restricted and causes 419 errors. We use a popout button instead.
+                return null;
             case 'youtube':
                 // YouTube chat embedding requires a specific video ID usually. 
                 // For now we'll show a placeholder or link.
@@ -158,14 +158,34 @@ const StreamerModal: React.FC<StreamerModalProps> = ({ streamer, onClose }) => {
                                     <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500 p-6 text-center">
                                         <MessageSquare size={48} className="mb-4 opacity-50" />
                                         <p>Chat embed not available for {chatPlatform}.</p>
-                                        <a
-                                            href={streamer.platforms[chatPlatform as keyof typeof streamer.platforms]}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="mt-4 text-blue-400 hover:underline"
-                                        >
-                                            Open in new tab
-                                        </a>
+
+                                        {chatPlatform === 'kick' ? (
+                                            <button
+                                                onClick={() => {
+                                                    const kickUser = streamer.platforms.kick?.split('/').pop();
+                                                    if (kickUser) {
+                                                        window.open(
+                                                            `https://kick.com/${kickUser}/chatroom`,
+                                                            'kick_chat',
+                                                            'width=400,height=600,menubar=no,toolbar=no,location=no,status=no'
+                                                        );
+                                                    }
+                                                }}
+                                                className="mt-4 flex items-center gap-2 bg-[#53FC18] text-black px-6 py-3 rounded-full font-bold hover:bg-[#42ca12] transition-colors"
+                                            >
+                                                <ExternalLink size={20} />
+                                                Open Popout Chat
+                                            </button>
+                                        ) : (
+                                            <a
+                                                href={streamer.platforms[chatPlatform as keyof typeof streamer.platforms]}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="mt-4 text-blue-400 hover:underline"
+                                            >
+                                                Open in new tab
+                                            </a>
+                                        )}
                                     </div>
                                 )}
                             </div>
